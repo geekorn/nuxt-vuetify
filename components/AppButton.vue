@@ -20,6 +20,8 @@
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/variables.scss';
+
 .button {
   display: inline-block;
   border-radius: 4px;
@@ -28,19 +30,19 @@
   padding: 10px 30px;
 
   &_color_green {
-    border-color: #3b8070;
-    color: #3b8070;
+    border-color: $color-green;
+    color: $color-green;
     &:hover {
       color: #fff;
-      background-color: #3b8070;
+      background-color: $color-green;
     }
   }
   &_color_gray {
-    border-color: #35495e;
-    color: #35495e;
+    border-color: $color-gray;
+    color: $color-gray;
     &:hover {
       color: #fff;
-      background-color: #35495e;
+      background-color: $color-gray;
     }
   }
 }
