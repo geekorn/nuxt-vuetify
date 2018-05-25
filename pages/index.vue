@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section class="page">
     <div>
       <app-logo/>
       <h1 class="title">
@@ -9,14 +9,14 @@
         {{ description }}
       </h2>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
+        <app-button
+          url="https://nuxtjs.org/"
+          label="Documentation"
+          color="green"/>
+        <app-button
+          url="https://github.com/nuxt/nuxt.js"
+          label="GitHub"
+          color="gray"/>
       </div>
     </div>
   </section>
@@ -24,21 +24,27 @@
 
 <script>
 import AppLogo from '~/components/AppLogo.vue'
+import AppButton from '~/components/AppButton.vue'
 
 export default {
-  name: 'financial calculator',
-  head: {
-    title: 'financial calculator',
-    name: 'financial calculator',
-  },
+  name: 'main-page',
   components: {
-    AppLogo
+    AppLogo,
+    AppButton,
+  },
+
+  data() {
+    return {
+      name: 'financial calculator',
+      description: 'financial calculator',
+    }
   }
 }
 </script>
 
 <style>
-.container {
+.page {
+  box-sizing: border-box;
   min-height: 100vh;
   display: flex;
   justify-content: center;
