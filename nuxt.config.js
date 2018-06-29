@@ -10,9 +10,13 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'financial calculator' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },
+  // modules: [ Vuetify ],
+  plugins: ['~/plugins/vuetify.js'],
+  css: ['vuetify/dist/vuetify.min.css'],
   /*
   ** Customize the progress bar color
   */

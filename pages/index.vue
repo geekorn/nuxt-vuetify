@@ -1,97 +1,101 @@
 <template>
-  <section class="page">
-    <div>
-      <app-logo/>
-      <h1 class="title">
-        {{ name }}
-      </h1>
-      <h2 class="subtitle">
-        {{ description }}
-      </h2>
-      <div class="links">
-        <form-field 
-          class="links__formfield"
-          name="user"
-          label="login"
-          v-model="login"
-          status="error"/>
-        <app-button
-          url="https://nuxtjs.org/"
-          label="Documentation"
-          color="green"/>
-        <app-button
-          url="https://github.com/nuxt/nuxt.js"
-          label="GitHub"
-          color="gray"/>
-      </div>
-    </div>
-  </section>
+    <v-content>
+      <v-container fluid fill-height
+        tag="section">
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4>
+            <v-card class="elevation-12" transition="slide-y-reverse-transition">
+              <v-toolbar color="success">
+                <v-toolbar-title>Login form</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-form ref="auth" v-model="valid" lazy-validation>
+                  <v-text-field  
+                    v-model="name"
+                    :rules="nameRules"
+                    :counter="10"
+                    type="text"
+                    name="login" 
+                    label="Login"
+                    prepend-icon="person" 
+                    required>
+                  </v-text-field>
+                  <v-text-field 
+                    id="password" 
+                    name="password" 
+                    label="Password"
+                    v-model="password"
+                    :rules="passwordRules"
+                    :type="showPass ? 'password' : 'text'"
+                    :append-icon="showPass ? 'visibility' : 'visibility_off'"
+                    :append-icon-cb="() => (showPass = !showPass)"
+                    prepend-icon="lock"
+                    required >
+                  </v-text-field>
+                  <v-alert 
+                    v-if="error" 
+                    :value="errorMsg" 
+                    type="error" 
+                    transition="scale-transition"
+                    dismissible>
+                    {{$store.state.error}}
+                  </v-alert>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="success" @click="submit" :disabled="!valid">Login</v-btn>
+                <v-btn color="success" outline @click="clear">clear</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
 </template>
 
 <script>
-// import { required, minLength, between } from 'vuelidate/lib/validators'
-
-import AppLogo from '~/components/AppLogo.vue'
-import AppButton from '~/components/AppButton.vue'
-import FormField from '~/components/FormField.vue'
 
 export default {
-  name: 'main-page',
-  components: {
-    AppLogo,
-    AppButton,
-    FormField,
-  },
+  name: 'auth-page',
 
   data() {
     return {
-      name: 'financial calculator',
-      description: 'financial calculator',
-      login: '',
+      valid: true,
+      showPass: true,
+      errorMsg: this.$store.state.error,
+      name: '',
+      nameRules: [
+        v => !!v || 'Ну как же без имени то, а?',
+        v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+      ],
+      password: '',
+      passwordRules: [ v => !!v || 'Пароль обязательный, ну..']
     }
   },
-  
-  // validations: {
-  //   login: {
-  //     required,
-  //     minLength: minLength(5)
-  //   }
-  // }
+
+  computed: {
+    // error() {
+    //   return this.$store.state.error
+    // }
+  },
+
+  methods: {
+    submit() {
+      if (this.$refs.auth.validate()) {
+        console.log('login')
+        this.$store.dispatch('login', this.name, this.password)
+      }
+    },
+
+    clear() {
+      this.$refs.auth.reset()
+    }
+  },
+
 }
 </script>
 
 <style lang="scss" scoped>
-.page {
-  box-sizing: border-box;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-
-  &__formfield {
-    margin: 0 auto;
-  }
-}
 </style>
